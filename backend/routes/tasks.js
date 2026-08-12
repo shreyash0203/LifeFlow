@@ -1,6 +1,7 @@
 import express from "express";
 import { body, validationResult } from "express-validator";
 import Task from "../models/Task.js";
+import Notification from "../models/Notification.js";
 import { protect } from "../middleware/auth.js";
 
 const router = express.Router();
@@ -33,8 +34,20 @@ router.post(
       const errors = validationResult(req);
       if (!errors.isEmpty()) return res.status(400).json({ message: errors.array()[0].msg });
 
-      const task = await Task.create({ ...req.body, user: req.user._id });
-      res.status(201).json(task);
+      const task = await Task.create({
+  ...req.body,
+  user: req.user._id,
+});
+
+// Create Notification
+await Notification.create({
+  user: req.user._id,
+  title: "New Task Created",
+  message: `"${task.title}" has been added successfully.`,
+  type: "task",
+});
+
+res.status(201).json(task);
     } catch (err) {
       next(err);
     }
@@ -53,6 +66,15 @@ router.put("/:id", async (req, res, next) => {
       { new: true, runValidators: true }
     );
     if (!task) return res.status(404).json({ message: "Task not found" });
+    // Create notification when task is completed
+    if (updates.status === "completed") {
+    await Notification.create({
+    user: req.user._id,
+    title: "Task Completed",
+    message: `"${task.title}" has been completed successfully.`,
+    type: "task",
+  });
+}
     res.json(task);
   } catch (err) {
     next(err);
@@ -63,6 +85,12 @@ router.delete("/:id", async (req, res, next) => {
   try {
     const task = await Task.findOneAndDelete({ _id: req.params.id, user: req.user._id });
     if (!task) return res.status(404).json({ message: "Task not found" });
+    await Notification.create({
+    user: req.user._id,
+    title: "Task Deleted",
+    message: `"${task.title}" has been deleted.`,
+    type: "task",
+});
     res.json({ message: "Task deleted" });
   } catch (err) {
     next(err);

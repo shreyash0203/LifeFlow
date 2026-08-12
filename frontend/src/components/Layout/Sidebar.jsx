@@ -17,7 +17,7 @@ const links = [
   { to: "/habits", label: "Habits", icon: Flame },
   { to: "/expenses", label: "Expenses", icon: Wallet },
   { to: "/notes", label: "Notes", icon: StickyNote },
-  { to: "/reminders", label: "Reminders", icon: Bell },
+
   { to: "/calendar", label: "Calendar", icon: Calendar },
   { to: "/settings", label: "Settings", icon: Settings },
 ];

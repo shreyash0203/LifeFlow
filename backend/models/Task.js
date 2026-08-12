@@ -10,6 +10,14 @@ const taskSchema = new mongoose.Schema(
     dueDate: { type: Date, default: null },
     tags: [{ type: String, trim: true }],
     completedAt: { type: Date, default: null },
+    reminderAt: {
+  type: Date,
+  default: null,
+},
+notifiedAt: {
+  type: Date,
+  default: null,
+},
   },
   { timestamps: true }
 );

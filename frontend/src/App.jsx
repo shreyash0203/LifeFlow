@@ -8,7 +8,6 @@ import Tasks from "./pages/Tasks";
 import Habits from "./pages/Habits";
 import Expenses from "./pages/Expenses";
 import Notes from "./pages/Notes";
-import Reminders from "./pages/Reminders";
 import CalendarView from "./pages/CalendarView";
 import Settings from "./pages/Settings";
 
@@ -31,7 +30,7 @@ export default function App() {
         <Route path="habits" element={<Habits />} />
         <Route path="expenses" element={<Expenses />} />
         <Route path="notes" element={<Notes />} />
-        <Route path="reminders" element={<Reminders />} />
+    
         <Route path="calendar" element={<CalendarView />} />
         <Route path="settings" element={<Settings />} />
       </Route>
